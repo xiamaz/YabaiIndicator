@@ -15,7 +15,7 @@ struct SpaceButtonStyle: ButtonStyle {
         configuration.label
             .frame(width: 22)
             .padding(1)
-            .foregroundColor(active ? .black : visible ? .gray : .primary)
+            .foregroundColor(active ? Color(NSColor.windowBackgroundColor) : visible ? Color(.systemGray) : .primary)
             .background(active ? Color.primary: visible ? .primary : Color.clear)
             .cornerRadius(6)
             .overlay(
@@ -35,12 +35,11 @@ func shell(_ args: String...) -> Int32 {
     return task.terminationStatus
 }
 
-struct ContentView: View {
-    
-    @EnvironmentObject var spaces: Spaces
+struct SpaceButton : View {
+    var space: Space
     
     func switchSpace(index: Int) {
-        if index != spaces.activeSpace {
+        if !space.active {
             shell(
                 "-m", "space", "--focus", "\(index)")
         }
@@ -48,16 +47,31 @@ struct ContentView: View {
     }
     
     var body: some View {
-        HStack (spacing: 5) {
-            ForEach(spaces.allSpaces, id: \.self) {space in
-                Button(
-                    action: {switchSpace(index: space)}
-                ){
-                    Text("\(space)")
-                        .frame(width: 22)
-                        .contentShape(Rectangle()) // Add this line
+        if space.index == 0 {
+            Divider().background(Color(.systemGray)).frame(height: 14)
+        } else {
+            Button(
+                action: {switchSpace(index: space.index)}
+            ){
+                Text("\(space.index)")
+                    .frame(width: 22)
+                    .contentShape(Rectangle()) // Add this line
 
-                }.buttonStyle(SpaceButtonStyle(active: space == spaces.activeSpace, visible: spaces.visibleSpaces.contains(space)))
+            }.buttonStyle(SpaceButtonStyle(active: space.active, visible: space.visible))
+
+        }
+    }
+}
+
+struct ContentView: View {
+    
+    @EnvironmentObject var spaces: Spaces
+    
+    
+    var body: some View {
+        HStack (spacing: 4) {
+            ForEach(spaces.spaceElems) {space in
+                SpaceButton(space: space)
             }
         }
     }
@@ -66,6 +80,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
-        ContentView().environmentObject(Spaces())
+        ContentView().environmentObject(Spaces(spaces:[]))
     }
 }

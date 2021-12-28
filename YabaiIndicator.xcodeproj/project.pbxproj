@@ -16,11 +16,11 @@
 		5061208A2779212300E8F192 /* YabaiIndicatorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120892779212300E8F192 /* YabaiIndicatorUITestsLaunchTests.swift */; };
 		506120982779239B00E8F192 /* YabaiAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120972779239B00E8F192 /* YabaiAppDelegate.swift */; };
 		5061209B277929A300E8F192 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5061209A277929A200E8F192 /* SkyLight.framework */; };
-		506120A1277A195C00E8F192 /* SkyLightCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = 506120A0277A195C00E8F192 /* SkyLightCommands.m */; };
 		506120A4277A1A6F00E8F192 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506120A2277A1A6C00E8F192 /* CoreGraphics.framework */; platformFilter = maccatalyst; };
 		506120A8277A1A8800E8F192 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506120A6277A1A8500E8F192 /* CoreServices.framework */; platformFilter = maccatalyst; };
 		506120AC277A1A9500E8F192 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506120AA277A1A9300E8F192 /* Cocoa.framework */; };
 		506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120AE277A7BF800E8F192 /* SpacesModel.swift */; };
+		506120B4277B44B200E8F192 /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = 506120B3277B44B200E8F192 /* Socket */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +57,6 @@
 		5061209A277929A200E8F192 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
 		5061209E277A13C600E8F192 /* SkyLightConnector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkyLightConnector.h; sourceTree = "<group>"; };
 		5061209F277A195C00E8F192 /* YabaiIndicator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YabaiIndicator-Bridging-Header.h"; sourceTree = "<group>"; };
-		506120A0277A195C00E8F192 /* SkyLightCommands.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkyLightCommands.m; sourceTree = "<group>"; };
 		506120A2277A1A6C00E8F192 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		506120A6277A1A8500E8F192 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		506120AA277A1A9300E8F192 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -70,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506120B4277B44B200E8F192 /* Socket in Frameworks */,
 				506120AC277A1A9500E8F192 /* Cocoa.framework in Frameworks */,
 				506120A4277A1A6F00E8F192 /* CoreGraphics.framework in Frameworks */,
 				506120A8277A1A8800E8F192 /* CoreServices.framework in Frameworks */,
@@ -127,7 +127,6 @@
 				506120712779212200E8F192 /* Preview Content */,
 				506120972779239B00E8F192 /* YabaiAppDelegate.swift */,
 				5061209E277A13C600E8F192 /* SkyLightConnector.h */,
-				506120A0277A195C00E8F192 /* SkyLightCommands.m */,
 				5061209F277A195C00E8F192 /* YabaiIndicator-Bridging-Header.h */,
 				506120AE277A7BF800E8F192 /* SpacesModel.swift */,
 			);
@@ -186,6 +185,9 @@
 			dependencies = (
 			);
 			name = YabaiIndicator;
+			packageProductDependencies = (
+				506120B3277B44B200E8F192 /* Socket */,
+			);
 			productName = YabaiIndicator;
 			productReference = 506120682779212000E8F192 /* YabaiIndicator.app */;
 			productType = "com.apple.product-type.application";
@@ -259,6 +261,9 @@
 				Base,
 			);
 			mainGroup = 5061205F2779212000E8F192;
+			packageReferences = (
+				506120B2277B44B200E8F192 /* XCRemoteSwiftPackageReference "BlueSocket" */,
+			);
 			productRefGroup = 506120692779212000E8F192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -304,7 +309,6 @@
 				506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */,
 				506120982779239B00E8F192 /* YabaiAppDelegate.swift in Sources */,
 				5061206E2779212000E8F192 /* ContentView.swift in Sources */,
-				506120A1277A195C00E8F192 /* SkyLightCommands.m in Sources */,
 				5061206C2779212000E8F192 /* YabaiIndicatorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -638,6 +642,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		506120B2277B44B200E8F192 /* XCRemoteSwiftPackageReference "BlueSocket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/BlueSocket.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		506120B3277B44B200E8F192 /* Socket */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 506120B2277B44B200E8F192 /* XCRemoteSwiftPackageReference "BlueSocket" */;
+			productName = Socket;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 506120602779212000E8F192 /* Project object */;
 }
