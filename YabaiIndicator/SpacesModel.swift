@@ -16,10 +16,13 @@ class Spaces: ObservableObject {
 }
 
 struct Space: Identifiable {
+    let id: UInt64
     let uuid: String
     let visible: Bool
     let active: Bool
     let displayUUID: String
-    let index: Int
-    var id: String { uuid }
+    let index: Int // mission control index (for sanitys sake)
+    let yabaiIndex: Int // continuous index (for addresssing)
+    let type: Int // 0 - normal space 4 - fullscreen space // -1 divider
+    // var id: String { uuid }
 }

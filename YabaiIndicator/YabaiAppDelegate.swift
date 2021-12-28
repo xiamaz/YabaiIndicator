@@ -31,6 +31,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     
         let displays = SLSCopyManagedDisplaySpaces(g_connection).takeRetainedValue() as [AnyObject]
         
+        var spaceIncr = 0
         var totalSpaces = 0
         var spaces:[Space] = []
         for display in displays {
@@ -42,23 +43,32 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
             let activeDisplay = activeDisplayUUID == displayUUID
             
             if (totalSpaces > 0) {
-                spaces.append(Space(uuid: "", visible: false, active: false, displayUUID: "", index: 0))
+                spaces.append(Space(id: 0, uuid: "", visible: false, active: false, displayUUID: "", index: 0, yabaiIndex: totalSpaces, type: -1))
             }
             
             for nsSpace:NSDictionary in displaySpaces {
+                let spaceId = nsSpace["id64"] as? UInt64 ?? 0
                 let spaceUUID = nsSpace["uuid"] as? String ?? ""
                 let visible = spaceUUID == currentUUID
                 let active = visible && activeDisplay
+                let spaceType = nsSpace["type"] as? Int ?? 0
+                
+                var spaceIndex = 0
                 totalSpaces += 1
-
-                spaces.append(Space(uuid: spaceUUID, visible: visible, active: active, displayUUID: displayUUID, index: totalSpaces))
+                if spaceType == 0 {
+                    spaceIncr += 1
+                    spaceIndex = spaceIncr
+                }
+                
+                spaces.append(Space(id: spaceId, uuid: spaceUUID, visible: visible, active: active, displayUUID: displayUUID, index: spaceIndex, yabaiIndex: totalSpaces, type: spaceType))
             }
         }
         self.spaces.spaceElems = spaces
                 
         let newWidth = CGFloat(totalSpaces) * 30.0
-        statusBarItem?.button?.frame.size.width = newWidth
-        statusBarItem?.button?.subviews[0].frame.size.width = newWidth
+        //statusBarItem?.button?.frame.size.width = newWidth
+        //statusBarItem?.button?.subviews[0].frame.size.width = newWidth
+        statusBarItem?.view?.frame.size.width = newWidth
         
     }
     
@@ -94,18 +104,17 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         Task {
             await self.socketServer()
         }
+        statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         // SwiftUI View
         let view = NSHostingView(
             rootView: ContentView().environmentObject(spaces)
         )
         
-        view.setFrameSize(NSSize(width: 0, height: 21))
-
-        // Very important! If you don't set the frame the menu won't appear to open.
-
-        statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusBarItem?.button?.addSubview(view)
+        view.setFrameSize(NSSize(width: 0, height: 18))
+        
+        statusBarItem?.view = view
+        // statusBarItem?.button?.addSubview(view)
         // statusBarItem?.button?.isEnabled = true
         
         let statusBarMenu = NSMenu(title: "Yabai Indicator Menu")
