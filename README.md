@@ -1,6 +1,8 @@
 #  Yabai Spaces Indicator
 
-![screenshot](./docs/screenshot.png)
+![screenshot](./docs/dark_indicator.png)
+
+![screenshot2](./docs/bright_indicator.png)
 
 Menubar Applet showing all spaces with clickable buttons for switching spaces.
 
