@@ -62,6 +62,7 @@
 		506120A6277A1A8500E8F192 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		506120AA277A1A9300E8F192 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		506120AE277A7BF800E8F192 /* SpacesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesModel.swift; sourceTree = "<group>"; };
+		506120B0277A8F5200E8F192 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +97,7 @@
 		5061205F2779212000E8F192 = {
 			isa = PBXGroup;
 			children = (
+				506120B0277A8F5200E8F192 /* README.md */,
 				5061206A2779212000E8F192 /* YabaiIndicator */,
 				5061207C2779212200E8F192 /* YabaiIndicatorTests */,
 				506120862779212300E8F192 /* YabaiIndicatorUITests */,
