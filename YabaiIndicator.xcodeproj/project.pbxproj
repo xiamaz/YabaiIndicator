@@ -14,6 +14,13 @@
 		5061207E2779212300E8F192 /* YabaiIndicatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061207D2779212300E8F192 /* YabaiIndicatorTests.swift */; };
 		506120882779212300E8F192 /* YabaiIndicatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120872779212300E8F192 /* YabaiIndicatorUITests.swift */; };
 		5061208A2779212300E8F192 /* YabaiIndicatorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120892779212300E8F192 /* YabaiIndicatorUITestsLaunchTests.swift */; };
+		506120982779239B00E8F192 /* YabaiAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120972779239B00E8F192 /* YabaiAppDelegate.swift */; };
+		5061209B277929A300E8F192 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5061209A277929A200E8F192 /* SkyLight.framework */; };
+		506120A1277A195C00E8F192 /* SkyLightCommands.m in Sources */ = {isa = PBXBuildFile; fileRef = 506120A0277A195C00E8F192 /* SkyLightCommands.m */; };
+		506120A4277A1A6F00E8F192 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506120A2277A1A6C00E8F192 /* CoreGraphics.framework */; platformFilter = maccatalyst; };
+		506120A8277A1A8800E8F192 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506120A6277A1A8500E8F192 /* CoreServices.framework */; platformFilter = maccatalyst; };
+		506120AC277A1A9500E8F192 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506120AA277A1A9300E8F192 /* Cocoa.framework */; };
+		506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120AE277A7BF800E8F192 /* SpacesModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +52,16 @@
 		506120832779212300E8F192 /* YabaiIndicatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YabaiIndicatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		506120872779212300E8F192 /* YabaiIndicatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YabaiIndicatorUITests.swift; sourceTree = "<group>"; };
 		506120892779212300E8F192 /* YabaiIndicatorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YabaiIndicatorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		506120962779231000E8F192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		506120972779239B00E8F192 /* YabaiAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YabaiAppDelegate.swift; sourceTree = "<group>"; };
+		5061209A277929A200E8F192 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
+		5061209E277A13C600E8F192 /* SkyLightConnector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SkyLightConnector.h; sourceTree = "<group>"; };
+		5061209F277A195C00E8F192 /* YabaiIndicator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YabaiIndicator-Bridging-Header.h"; sourceTree = "<group>"; };
+		506120A0277A195C00E8F192 /* SkyLightCommands.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SkyLightCommands.m; sourceTree = "<group>"; };
+		506120A2277A1A6C00E8F192 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		506120A6277A1A8500E8F192 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		506120AA277A1A9300E8F192 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		506120AE277A7BF800E8F192 /* SpacesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +69,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506120AC277A1A9500E8F192 /* Cocoa.framework in Frameworks */,
+				506120A4277A1A6F00E8F192 /* CoreGraphics.framework in Frameworks */,
+				506120A8277A1A8800E8F192 /* CoreServices.framework in Frameworks */,
+				5061209B277929A300E8F192 /* SkyLight.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +100,7 @@
 				5061207C2779212200E8F192 /* YabaiIndicatorTests */,
 				506120862779212300E8F192 /* YabaiIndicatorUITests */,
 				506120692779212000E8F192 /* Products */,
+				50612099277929A200E8F192 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,11 +117,17 @@
 		5061206A2779212000E8F192 /* YabaiIndicator */ = {
 			isa = PBXGroup;
 			children = (
+				506120962779231000E8F192 /* Info.plist */,
 				5061206B2779212000E8F192 /* YabaiIndicatorApp.swift */,
 				5061206D2779212000E8F192 /* ContentView.swift */,
 				5061206F2779212200E8F192 /* Assets.xcassets */,
 				506120742779212200E8F192 /* YabaiIndicator.entitlements */,
 				506120712779212200E8F192 /* Preview Content */,
+				506120972779239B00E8F192 /* YabaiAppDelegate.swift */,
+				5061209E277A13C600E8F192 /* SkyLightConnector.h */,
+				506120A0277A195C00E8F192 /* SkyLightCommands.m */,
+				5061209F277A195C00E8F192 /* YabaiIndicator-Bridging-Header.h */,
+				506120AE277A7BF800E8F192 /* SpacesModel.swift */,
 			);
 			path = YabaiIndicator;
 			sourceTree = "<group>";
@@ -127,6 +155,17 @@
 				506120892779212300E8F192 /* YabaiIndicatorUITestsLaunchTests.swift */,
 			);
 			path = YabaiIndicatorUITests;
+			sourceTree = "<group>";
+		};
+		50612099277929A200E8F192 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				506120AA277A1A9300E8F192 /* Cocoa.framework */,
+				506120A6277A1A8500E8F192 /* CoreServices.framework */,
+				506120A2277A1A6C00E8F192 /* CoreGraphics.framework */,
+				5061209A277929A200E8F192 /* SkyLight.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,6 +236,7 @@
 				TargetAttributes = {
 					506120672779212000E8F192 = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1320;
 					};
 					506120782779212200E8F192 = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -259,7 +299,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */,
+				506120982779239B00E8F192 /* YabaiAppDelegate.swift in Sources */,
 				5061206E2779212000E8F192 /* ContentView.swift in Sources */,
+				506120A1277A195C00E8F192 /* SkyLightCommands.m in Sources */,
 				5061206C2779212000E8F192 /* YabaiIndicatorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +460,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = YabaiIndicator/YabaiIndicator.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -426,6 +470,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YabaiIndicator/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -435,7 +480,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.arsbrevis.YabaiIndicator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "YabaiIndicator/YabaiIndicator-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 			};
 			name = Debug;
 		};
@@ -444,6 +495,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = YabaiIndicator/YabaiIndicator.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -453,6 +505,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YabaiIndicator/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -462,7 +515,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.arsbrevis.YabaiIndicator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "YabaiIndicator/YabaiIndicator-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 			};
 			name = Release;
 		};

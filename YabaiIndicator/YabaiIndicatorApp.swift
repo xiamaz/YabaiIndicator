@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct YabaiIndicatorApp: App {
+    @NSApplicationDelegateAdaptor(YabaiAppDelegate.self) var appDelegate
+    
+    
+    init() {
+        // Customize delegate here.
+    }
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+        Settings {
+                    EmptyView()
+                }
+
     }
 }
