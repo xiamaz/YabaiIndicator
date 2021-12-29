@@ -1,5 +1,16 @@
 #  Yabai Spaces Indicator
 
+<div align="center">
+    <img src="docs/appicon.png" width="200" height="200">
+    <h1>Yabai Indicator</h1>
+    <p>
+        <b>Clickable spaces switcher powered by Yabai</b>
+    </p>
+    <br>
+</div>
+
+## In action
+
 ![screenshot](./docs/dark_indicator.png)
 
 ![screenshot2](./docs/bright_indicator.png)
