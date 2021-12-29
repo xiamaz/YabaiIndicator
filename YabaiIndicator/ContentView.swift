@@ -7,21 +7,6 @@
 
 import SwiftUI
 
-struct SpaceButtonStyle: ButtonStyle {
-    let active: Bool
-    let visible: Bool
-    
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .frame(width: 22, height: 16)
-            .padding(1)
-            .foregroundColor(active ? Color(NSColor.windowBackgroundColor) : visible ? Color(.systemGray) : .primary)
-            .background(active ? Color.primary: visible ? .primary : Color.clear)
-            .cornerRadius(6)
-            .overlay(RoundedRectangle(cornerRadius: 6).stroke(Color.primary, lineWidth: 1))
-    }
-}
-
 @discardableResult
 func shell(_ args: String...) -> Int32 {
     let task = Process()
@@ -45,10 +30,10 @@ struct SpaceButton : View {
         }
     }
     
-    func switchSpace(index: Int) {
-        if !space.active && index > 0 {
+    func switchSpace() {
+        if !space.active && space.yabaiIndex > 0 {
             shell(
-                "-m", "space", "--focus", "\(index)")
+                "-m", "space", "--focus", "\(space.yabaiIndex)")
         }
         
     }
@@ -57,15 +42,9 @@ struct SpaceButton : View {
         if space.type == -1 {
             Divider().background(Color(.systemGray)).frame(height: 14)
         } else {
-            Button(
-                action: {switchSpace(index: space.yabaiIndex)}
-            ){
-                Text("\(getText())")
-                    .frame(width: 22, height: 16)
-                    .contentShape(Rectangle()) // Add this line
-
-            }.buttonStyle(SpaceButtonStyle(active: space.active, visible: space.visible))
-
+            Image(nsImage: generateImage(symbol: getText() as NSString, active: space.active, visible: space.visible)).onTapGesture {
+                switchSpace()
+            }.frame(width:24, height: 16)
         }
     }
 }
@@ -80,7 +59,7 @@ struct ContentView: View {
             ForEach(spaces.spaceElems) {space in
                 SpaceButton(space: space)
             }
-        }.frame(height: 18)
+        }.padding(2)
     }
 }
 

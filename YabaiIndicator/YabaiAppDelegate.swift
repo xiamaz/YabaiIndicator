@@ -66,8 +66,8 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         self.spaces.spaceElems = spaces
                 
         let newWidth = CGFloat(totalSpaces) * 30.0
-        //statusBarItem?.button?.frame.size.width = newWidth
-        //statusBarItem?.button?.subviews[0].frame.size.width = newWidth
+        statusBarItem?.button?.frame.size.width = newWidth
+        statusBarItem?.button?.subviews[0].frame.size.width = newWidth
         statusBarItem?.view?.frame.size.width = newWidth
         
     }
@@ -111,10 +111,10 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
             rootView: ContentView().environmentObject(spaces)
         )
         
-        view.setFrameSize(NSSize(width: 0, height: 18))
+        view.setFrameSize(NSSize(width: 0, height: 22))
         
-        statusBarItem?.view = view
-        // statusBarItem?.button?.addSubview(view)
+        // statusBarItem?.view = view
+        statusBarItem?.button?.addSubview(view)
         // statusBarItem?.button?.isEnabled = true
         
         let statusBarMenu = NSMenu(title: "Yabai Indicator Menu")

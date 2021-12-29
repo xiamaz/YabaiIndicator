@@ -21,6 +21,7 @@
 		506120AC277A1A9500E8F192 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506120AA277A1A9300E8F192 /* Cocoa.framework */; };
 		506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120AE277A7BF800E8F192 /* SpacesModel.swift */; };
 		506120B4277B44B200E8F192 /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = 506120B3277B44B200E8F192 /* Socket */; };
+		50DF24C7277BD18700DF1906 /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DF24C6277BD18700DF1906 /* ImageGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		506120AA277A1A9300E8F192 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		506120AE277A7BF800E8F192 /* SpacesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesModel.swift; sourceTree = "<group>"; };
 		506120B0277A8F5200E8F192 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		50DF24C6277BD18700DF1906 /* ImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				506120962779231000E8F192 /* Info.plist */,
 				5061206B2779212000E8F192 /* YabaiIndicatorApp.swift */,
 				5061206D2779212000E8F192 /* ContentView.swift */,
+				50DF24C6277BD18700DF1906 /* ImageGenerator.swift */,
 				5061206F2779212200E8F192 /* Assets.xcassets */,
 				506120742779212200E8F192 /* YabaiIndicator.entitlements */,
 				506120712779212200E8F192 /* Preview Content */,
@@ -307,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */,
+				50DF24C7277BD18700DF1906 /* ImageGenerator.swift in Sources */,
 				506120982779239B00E8F192 /* YabaiAppDelegate.swift in Sources */,
 				5061206E2779212000E8F192 /* ContentView.swift in Sources */,
 				5061206C2779212000E8F192 /* YabaiIndicatorApp.swift in Sources */,
