@@ -113,9 +113,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         
         view.setFrameSize(NSSize(width: 0, height: 22))
         
-        // statusBarItem?.view = view
         statusBarItem?.button?.addSubview(view)
-        // statusBarItem?.button?.isEnabled = true
         
         let statusBarMenu = NSMenu(title: "Yabai Indicator Menu")
         statusBarItem?.menu = statusBarMenu
