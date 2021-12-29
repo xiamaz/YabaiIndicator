@@ -1,5 +1,3 @@
-#  Yabai Spaces Indicator
-
 <div align="center">
     <img src="docs/appicon.png" width="200" height="200">
     <h1>Yabai Indicator</h1>
