@@ -4,20 +4,19 @@
     <p>
         <b>Clickable spaces switcher powered by Yabai</b>
     </p>
-    <br>
+
+<img src="docs/screenshot-white.png" alt="screenshot" width="474">
+<p>Shows a row clickable buttons for all workspaces including fullscreen applications</p>
+
+<img src="docs/dark_indicator.png" alt="screenshot" width="">
+<p>Also supports multiple displays (with separate spaces).</p>
+
 </div>
 
-## In action
-
-![screenshot](./docs/dark_indicator.png)
-
-![screenshot2](./docs/bright_indicator.png)
-
-Menubar Applet showing all spaces with clickable buttons for switching spaces.
 
 ## Requirements
 
-Yabai is required to be running for the space switching and keeping spaces information in sync. The latter will also require adding the following signals to your `.yabairc`:
+[Yabai](https://github.com/koekeishiya/yabai) is required to be running for the space switching and keeping spaces information in sync. The latter will also require adding the following signals to your `.yabairc`:
 
 ```
 yabai -m signal --add event=mission_control_exit action='echo "refresh" | nc -U /tmp/yabai-indicator.socket' label=yindmc
@@ -26,6 +25,14 @@ yabai -m signal --add event=display_removed action='echo "refresh" | nc -U /tmp/
 ```
 
 Currently yabai is expected to reside in `/usr/local/bin/yabai`. Configurability might come at a later point.
+
+If certain keybinds modify the spaces arrangement the following commands needs to be added to keep the indicator in sync:
+
+```
+echo "refresh" | nc -U /tmp/yabai-indicator.socket
+```
+
+This sends a refresh command to Yabai Indicator via a unix-domain socket.
 
 ## How it works
 
