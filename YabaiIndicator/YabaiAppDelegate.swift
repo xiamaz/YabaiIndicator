@@ -67,9 +67,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
                 
         let newWidth = CGFloat(totalSpaces) * 30.0
         statusBarItem?.button?.frame.size.width = newWidth
-        statusBarItem?.button?.subviews[0].frame.size.width = newWidth
-        statusBarItem?.view?.frame.size.width = newWidth
-        
+        statusBarItem?.button?.subviews[0].frame.size.width = newWidth        
     }
     
     func socketServer() async {
