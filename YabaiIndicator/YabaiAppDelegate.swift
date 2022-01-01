@@ -14,6 +14,8 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     var spaces = Spaces(spaces: [])
     
     let g_connection = SLSMainConnectionID()
+    let statusBarHeight = 22
+    let itemWidth:CGFloat = 30
 
     @objc
     func onSpaceChanged(_ notification: Notification) {
@@ -65,7 +67,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         }
         self.spaces.spaceElems = spaces
                 
-        let newWidth = CGFloat(totalSpaces) * 30.0
+        let newWidth = CGFloat(totalSpaces) * itemWidth
         statusBarItem?.button?.frame.size.width = newWidth
         statusBarItem?.button?.subviews[0].frame.size.width = newWidth        
     }
@@ -97,6 +99,34 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     func quit() {
         NSApp.terminate(self)
     }
+    
+    func createStatusItemView() -> NSView {
+        let view = NSHostingView(
+            rootView: ContentView().environmentObject(spaces)
+        )
+        view.setFrameSize(NSSize(width: 0, height: statusBarHeight))
+        return view
+    }
+    
+    func createMenu() -> NSMenu {
+        let statusBarMenu = NSMenu(title: "Yabai Indicator Menu")
+        let settingsView = NSHostingView(rootView: SettingsView())
+        let menuItem = NSMenuItem()
+        settingsView.setFrameSize(NSSize(width: 300, height: 100))
+        menuItem.view = settingsView
+        statusBarMenu.addItem(menuItem)
+        statusBarMenu.addItem(NSMenuItem.separator())
+        statusBarMenu.addItem(
+            withTitle: "Quit",
+            action: #selector(quit),
+            keyEquivalent: "")
+        return statusBarMenu
+    }
+    
+    func registerObservers() {
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.onSpaceChanged(_:)), name: NSWorkspace.activeSpaceDidChangeNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.onDisplayChanged(_:)), name: Notification.Name("NSWorkspaceActiveDisplayDidChangeNotification"), object: nil)
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         Task {
@@ -104,25 +134,9 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         }
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
-        // SwiftUI View
-        let view = NSHostingView(
-            rootView: ContentView().environmentObject(spaces)
-        )
-        
-        view.setFrameSize(NSSize(width: 0, height: 22))
-        
-        statusBarItem?.button?.addSubview(view)
-        
-        let statusBarMenu = NSMenu(title: "Yabai Indicator Menu")
-        statusBarItem?.menu = statusBarMenu
-        statusBarMenu.addItem(
-            withTitle: "Quit",
-            action: #selector(quit),
-            keyEquivalent: "")
+        statusBarItem?.button?.addSubview(createStatusItemView())
+        statusBarItem?.menu = createMenu()
         
         refreshData()
-        
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.onSpaceChanged(_:)), name: NSWorkspace.activeSpaceDidChangeNotification, object: nil)
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.onDisplayChanged(_:)), name: Notification.Name("NSWorkspaceActiveDisplayDidChangeNotification"), object: nil)
     }
 }

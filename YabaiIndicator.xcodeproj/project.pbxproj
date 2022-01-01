@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		500F41362780826500C6BC9B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500F41352780826500C6BC9B /* SettingsView.swift */; };
 		5061206C2779212000E8F192 /* YabaiIndicatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061206B2779212000E8F192 /* YabaiIndicatorApp.swift */; };
 		5061206E2779212000E8F192 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061206D2779212000E8F192 /* ContentView.swift */; };
 		506120702779212200E8F192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5061206F2779212200E8F192 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		500F41352780826500C6BC9B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		506120682779212000E8F192 /* YabaiIndicator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YabaiIndicator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5061206B2779212000E8F192 /* YabaiIndicatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YabaiIndicatorApp.swift; sourceTree = "<group>"; };
 		5061206D2779212000E8F192 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				5061209E277A13C600E8F192 /* SkyLightConnector.h */,
 				5061209F277A195C00E8F192 /* YabaiIndicator-Bridging-Header.h */,
 				506120AE277A7BF800E8F192 /* SpacesModel.swift */,
+				500F41352780826500C6BC9B /* SettingsView.swift */,
 			);
 			path = YabaiIndicator;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */,
 				50DF24C7277BD18700DF1906 /* ImageGenerator.swift in Sources */,
 				506120982779239B00E8F192 /* YabaiAppDelegate.swift in Sources */,
+				500F41362780826500C6BC9B /* SettingsView.swift in Sources */,
 				5061206E2779212000E8F192 /* ContentView.swift in Sources */,
 				5061206C2779212000E8F192 /* YabaiIndicatorApp.swift in Sources */,
 			);
