@@ -5,12 +5,17 @@
         <b>Clickable spaces switcher powered by Yabai</b>
     </p>
 
-<img src="docs/screenshot-white.png" alt="screenshot" width="474">
+<img src="docs/simple.png" alt="screenshot">
 <p>Shows a row clickable buttons for all workspaces including fullscreen applications</p>
 
-<img src="docs/dark_indicator.png" alt="screenshot" width="">
+<img src="docs/screenshot-dark.png" alt="screenshot2">
 <p>Also supports multiple displays (with separate spaces).</p>
 
+<img src="docs/fullscreen.png" alt="screenshot3">
+<p>Fullscreen applications.</p>
+
+<img src="docs/compact.png" alt="screenshot4">
+<p>Compact mode.</p>
 </div>
 
 
