@@ -9,6 +9,8 @@ import Foundation
 
 class Spaces: ObservableObject {
     @Published var spaceElems:[Space] = []
+    @Published var totalSpaces:Int = 0
+    @Published var totalDisplays:Int = 0
     
     init(spaces: [Space]) {
         spaceElems = spaces

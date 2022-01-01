@@ -7,16 +7,6 @@
 
 import SwiftUI
 
-@discardableResult
-func shell(_ args: String...) -> Int32 {
-    let task = Process()
-    task.launchPath = "/usr/local/bin/yabai"
-    task.arguments = args
-    task.launch()
-    task.waitUntilExit()
-    return task.terminationStatus
-}
-
 struct SpaceButton : View {
     var space: Space
     
@@ -32,8 +22,7 @@ struct SpaceButton : View {
     
     func switchSpace() {
         if !space.active && space.yabaiIndex > 0 {
-            shell(
-                "-m", "space", "--focus", "\(space.yabaiIndex)")
+            focusSpace(index: space.yabaiIndex)
         }
         
     }
@@ -52,11 +41,12 @@ struct SpaceButton : View {
 struct ContentView: View {
     
     @EnvironmentObject var spaces: Spaces
-    
+    @AppStorage("showDisplaySeparator") private var showDisplaySeparator = true
+    @AppStorage("showCurrentSpaceOnly") private var showCurrentSpaceOnly = false
     
     var body: some View {
         HStack (spacing: 4) {
-            ForEach(spaces.spaceElems) {space in
+            ForEach(spaces.spaceElems.filter{($0.type >= 0) || showDisplaySeparator}.filter{$0.visible || !showCurrentSpaceOnly}) {space in
                 SpaceButton(space: space)
             }
         }.padding(2)

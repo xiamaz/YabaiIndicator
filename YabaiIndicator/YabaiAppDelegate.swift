@@ -7,6 +7,17 @@
 
 import SwiftUI
 import Socket
+import Combine
+
+extension UserDefaults {
+    @objc dynamic var showDisplaySeparator: Bool {
+        return bool(forKey: "showDisplaySeparator")
+    }
+    
+    @objc dynamic var showCurrentSpaceOnly: Bool {
+        return bool(forKey: "showCurrentSpaceOnly")
+    }
+}
 
 class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
@@ -16,6 +27,11 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     let g_connection = SLSMainConnectionID()
     let statusBarHeight = 22
     let itemWidth:CGFloat = 30
+    
+    var refreshSink: AnyCancellable?
+    var separatorSink: AnyCancellable?
+    var displaySink: AnyCancellable?
+
 
     @objc
     func onSpaceChanged(_ notification: Notification) {
@@ -32,7 +48,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         let activeDisplayUUID = SLSCopyActiveMenuBarDisplayIdentifier(g_connection).takeRetainedValue() as String
     
         let displays = SLSCopyManagedDisplaySpaces(g_connection).takeRetainedValue() as [AnyObject]
-        
+    
         var spaceIncr = 0
         var totalSpaces = 0
         var spaces:[Space] = []
@@ -45,7 +61,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
             let activeDisplay = activeDisplayUUID == displayUUID
             
             if (totalSpaces > 0) {
-                spaces.append(Space(id: 0, uuid: "", visible: false, active: false, displayUUID: "", index: 0, yabaiIndex: totalSpaces, type: -1))
+                spaces.append(Space(id: 0, uuid: "", visible: true, active: false, displayUUID: "", index: 0, yabaiIndex: totalSpaces, type: -1))
             }
             
             for nsSpace:NSDictionary in displaySpaces {
@@ -66,10 +82,23 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         self.spaces.spaceElems = spaces
-                
-        let newWidth = CGFloat(totalSpaces) * itemWidth
+        self.spaces.totalSpaces = totalSpaces
+        self.spaces.totalDisplays = displays.count
+    }
+    
+    func refreshBar() {
+        let showDisplaySeparator = UserDefaults.standard.bool(forKey: "showDisplaySeparator")
+        let showCurrentSpaceOnly = UserDefaults.standard.bool(forKey: "showCurrentSpaceOnly")
+        
+        let numButtons = showCurrentSpaceOnly ?  spaces.totalDisplays : spaces.totalSpaces
+        
+        var newWidth = CGFloat(numButtons) * itemWidth
+        if !showDisplaySeparator {
+            newWidth -= CGFloat((spaces.totalDisplays - 1) * 10)
+        }
         statusBarItem?.button?.frame.size.width = newWidth
-        statusBarItem?.button?.subviews[0].frame.size.width = newWidth        
+        statusBarItem?.button?.subviews[0].frame.size.width = newWidth
+
     }
     
     func socketServer() async {
@@ -100,6 +129,12 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         NSApp.terminate(self)
     }
     
+    @objc
+    func openPreferences() {
+        NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+    
     func createStatusItemView() -> NSView {
         let view = NSHostingView(
             rootView: ContentView().environmentObject(spaces)
@@ -109,13 +144,13 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func createMenu() -> NSMenu {
-        let statusBarMenu = NSMenu(title: "Yabai Indicator Menu")
-        let settingsView = NSHostingView(rootView: SettingsView())
-        let menuItem = NSMenuItem()
-        settingsView.setFrameSize(NSSize(width: 300, height: 100))
-        menuItem.view = settingsView
-        statusBarMenu.addItem(menuItem)
+        let statusBarMenu = NSMenu()
+        statusBarMenu.addItem(
+            withTitle: "Preferences",
+            action: #selector(openPreferences),
+            keyEquivalent: "")
         statusBarMenu.addItem(NSMenuItem.separator())
+
         statusBarMenu.addItem(
             withTitle: "Quit",
             action: #selector(quit),
@@ -129,6 +164,16 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        if let prefs = Bundle.main.path(forResource: "defaults", ofType: "plist"),
+            let dict = NSDictionary(contentsOfFile: prefs) as? [String : Any] {
+          UserDefaults.standard.register(defaults: dict)
+        }
+        
+        refreshSink = spaces.objectWillChange.sink{_ in self.refreshBar()}
+        separatorSink = UserDefaults.standard.publisher(for: \.showDisplaySeparator).sink {_ in self.refreshBar()}
+        displaySink = UserDefaults.standard.publisher(for: \.showCurrentSpaceOnly).sink {_ in self.refreshBar()}
+
+        
         Task {
             await self.socketServer()
         }
@@ -138,5 +183,8 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         statusBarItem?.menu = createMenu()
         
         refreshData()
+        
+        registerObservers()
+
     }
 }
