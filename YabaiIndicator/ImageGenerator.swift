@@ -41,8 +41,8 @@ func generateImage(symbol: NSString, active: Bool, visible: Bool) -> NSImage {
         imageStroke.unlockFocus()
         
         image.lockFocus()
-        imageFill.draw(in: canvas, from: NSZeroRect, operation: .sourceOut, fraction: 1.0)
-        imageStroke.draw(in: canvas, from: NSZeroRect, operation: .destinationOut, fraction: active ? 1.0 : 0.5)
+        imageFill.draw(in: canvas, from: NSZeroRect, operation: .sourceOut, fraction: active ? 1.0 : 0.8)
+        imageStroke.draw(in: canvas, from: NSZeroRect, operation: .destinationOut, fraction: active ? 1.0 : 0.8)
         image.unlockFocus()
     } else {
         image.lockFocus()
