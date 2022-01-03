@@ -10,18 +10,12 @@ import SwiftUI
 struct SettingsView : View {
     @AppStorage("showDisplaySeparator") private var showDisplaySeparator = true
     @AppStorage("showCurrentSpaceOnly") private var showCurrentSpaceOnly = false
-    @AppStorage("yabaiPath") private var yabaiPath = ""
     
-    @State private var validPath = false
-    @State private var editedPath = false
+    @AppStorage("buttonStyle") private var buttonStyle = ButtonStyle.numeric
+    @State private var selectedButtonStyle = ButtonStyle.numeric
     
     private enum Tabs: Hashable {
         case general, advanced
-    }
-    
-    private func checkYabaiPath() {
-        validPath = checkYabai()
-        editedPath = true
     }
     
     var body: some View {
@@ -29,16 +23,9 @@ struct SettingsView : View {
             Form {
                 Toggle("Show Display Separator", isOn: $showDisplaySeparator)
                 Toggle("Show Current Space Only", isOn: $showCurrentSpaceOnly)
-                VStack{
-                HStack {
-                    Text("Yabai Path")
-                    TextField("Yabai Path", text: $yabaiPath)
-                    Button("Check", action: checkYabaiPath)
-                }
-                if (editedPath) {
-                    Text(validPath ? "Valid yabai binary" : "Invalid path").foregroundColor(validPath ? Color.green : Color.red)
-                }
-                    Spacer()
+                Picker("Button Style", selection: $buttonStyle) {
+                    Text("Numeric").tag(ButtonStyle.numeric)
+                    Text("Windows").tag(ButtonStyle.windows)
                 }
             }.padding(10)
                 .tabItem {

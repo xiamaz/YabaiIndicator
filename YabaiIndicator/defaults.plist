@@ -2,10 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>buttonStyle</key>
+	<real>0</real>
 	<key>showDisplaySeparator</key>
 	<true/>
-	<key>yabaiPath</key>
-	<string>/usr/local/bin/yabai</string>
 	<key>showCurrentSpaceOnly</key>
 	<false/>
 </dict>

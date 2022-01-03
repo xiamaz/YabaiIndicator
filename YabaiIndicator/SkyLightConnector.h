@@ -27,7 +27,10 @@ extern CGContextRef SLWindowContextCreate(int cid, uint32_t wid, CFDictionaryRef
 extern CGError CGSNewRegionWithRect(CGRect *rect, CFTypeRef *outRegion);
 
 extern CFArrayRef SLSCopyManagedDisplaySpaces(int cid);
+extern CFArrayRef SLSCopyManagedDisplays(int cid);
 extern CFStringRef SLSCopyActiveMenuBarDisplayIdentifier(int cid);
+extern CFStringRef SLSGetDisplayBounds(int did);
+
 
 #define kCGSModalWindowTagBit           (1 << 31)
 #define kCGSDisableShadowTagBit         (1 <<  3)

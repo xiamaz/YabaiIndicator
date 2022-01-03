@@ -24,6 +24,9 @@
 		506120AC277A1A9500E8F192 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 506120AA277A1A9300E8F192 /* Cocoa.framework */; };
 		506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506120AE277A7BF800E8F192 /* SpacesModel.swift */; };
 		506120B4277B44B200E8F192 /* Socket in Frameworks */ = {isa = PBXBuildFile; productRef = 506120B3277B44B200E8F192 /* Socket */; };
+		5086FE7F2782006D00E51F61 /* SocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = 5086FE7E2782006C00E51F61 /* SocketClient.c */; };
+		5086FE842783026C00E51F61 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086FE832783026C00E51F61 /* ButtonStyle.swift */; };
+		5086FE87278303EE00E51F61 /* NativeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086FE86278303EE00E51F61 /* NativeClient.swift */; };
 		50DF24C7277BD18700DF1906 /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DF24C6277BD18700DF1906 /* ImageGenerator.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +72,10 @@
 		506120AA277A1A9300E8F192 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		506120AE277A7BF800E8F192 /* SpacesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacesModel.swift; sourceTree = "<group>"; };
 		506120B0277A8F5200E8F192 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5086FE7D2782006C00E51F61 /* SocketClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocketClient.h; sourceTree = "<group>"; };
+		5086FE7E2782006C00E51F61 /* SocketClient.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SocketClient.c; sourceTree = "<group>"; };
+		5086FE832783026C00E51F61 /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
+		5086FE86278303EE00E51F61 /* NativeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeClient.swift; sourceTree = "<group>"; };
 		50DF24C6277BD18700DF1906 /* ImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +134,8 @@
 		5061206A2779212000E8F192 /* YabaiIndicator */ = {
 			isa = PBXGroup;
 			children = (
+				5086FE852783036900E51F61 /* Connectors */,
+				5086FE822783024600E51F61 /* Models */,
 				5051A46A2780DC9B00614C85 /* defaults.plist */,
 				506120962779231000E8F192 /* Info.plist */,
 				5061206B2779212000E8F192 /* YabaiIndicatorApp.swift */,
@@ -137,10 +146,10 @@
 				506120712779212200E8F192 /* Preview Content */,
 				506120972779239B00E8F192 /* YabaiAppDelegate.swift */,
 				5061209E277A13C600E8F192 /* SkyLightConnector.h */,
+				5086FE7D2782006C00E51F61 /* SocketClient.h */,
+				5086FE7E2782006C00E51F61 /* SocketClient.c */,
 				5061209F277A195C00E8F192 /* YabaiIndicator-Bridging-Header.h */,
-				506120AE277A7BF800E8F192 /* SpacesModel.swift */,
 				500F41352780826500C6BC9B /* SettingsView.swift */,
-				5051A4682780C02700614C85 /* YabaiClient.swift */,
 			);
 			path = YabaiIndicator;
 			sourceTree = "<group>";
@@ -179,6 +188,24 @@
 				5061209A277929A200E8F192 /* SkyLight.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5086FE822783024600E51F61 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				506120AE277A7BF800E8F192 /* SpacesModel.swift */,
+				5086FE832783026C00E51F61 /* ButtonStyle.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5086FE852783036900E51F61 /* Connectors */ = {
+			isa = PBXGroup;
+			children = (
+				5051A4682780C02700614C85 /* YabaiClient.swift */,
+				5086FE86278303EE00E51F61 /* NativeClient.swift */,
+			);
+			path = Connectors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,12 +347,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */,
+				5086FE87278303EE00E51F61 /* NativeClient.swift in Sources */,
 				50DF24C7277BD18700DF1906 /* ImageGenerator.swift in Sources */,
 				506120982779239B00E8F192 /* YabaiAppDelegate.swift in Sources */,
 				500F41362780826500C6BC9B /* SettingsView.swift in Sources */,
 				5061206E2779212000E8F192 /* ContentView.swift in Sources */,
 				5061206C2779212000E8F192 /* YabaiIndicatorApp.swift in Sources */,
+				5086FE842783026C00E51F61 /* ButtonStyle.swift in Sources */,
 				5051A4692780C02700614C85 /* YabaiClient.swift in Sources */,
+				5086FE7F2782006D00E51F61 /* SocketClient.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,7 +528,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.2.0;
+				MARKETING_VERSION = 0.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.arsbrevis.YabaiIndicator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -533,7 +563,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.2.0;
+				MARKETING_VERSION = 0.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.arsbrevis.YabaiIndicator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

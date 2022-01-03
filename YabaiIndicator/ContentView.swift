@@ -22,9 +22,8 @@ struct SpaceButton : View {
     
     func switchSpace() {
         if !space.active && space.yabaiIndex > 0 {
-            focusSpace(index: space.yabaiIndex)
-        }
-        
+            gYabaiClient.focusSpace(index: space.yabaiIndex)
+        }        
     }
     
     var body: some View {
@@ -38,24 +37,59 @@ struct SpaceButton : View {
     }
 }
 
-struct ContentView: View {
+struct WindowSpaceButton : View {
+    var space: Space
+    var windows: [Window]
+    var display: Display
     
-    @EnvironmentObject var spaces: Spaces
-    @AppStorage("showDisplaySeparator") private var showDisplaySeparator = true
-    @AppStorage("showCurrentSpaceOnly") private var showCurrentSpaceOnly = false
+    func switchSpace() {
+        if !space.active && space.yabaiIndex > 0 {
+            gYabaiClient.focusSpace(index: space.yabaiIndex)
+        }
+    }
     
-    var body: some View {
-        HStack (spacing: 4) {
-            ForEach(spaces.spaceElems.filter{($0.type >= 0) || showDisplaySeparator}.filter{$0.visible || !showCurrentSpaceOnly}) {space in
-                SpaceButton(space: space)
-            }
-        }.padding(2)
+    var body : some View {
+        Image(nsImage: generateImage(active: space.active, visible: space.visible, windows: windows, display: display)).onTapGesture {
+            switchSpace()
+        }.frame(width:24, height: 16)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ContentView: View {
+    @EnvironmentObject var spaceModel: SpaceModel
+    @AppStorage("showDisplaySeparator") private var showDisplaySeparator = true
+    @AppStorage("showCurrentSpaceOnly") private var showCurrentSpaceOnly = false
+    @AppStorage("buttonStyle") private var buttonStyle: ButtonStyle = .numeric
     
-    static var previews: some View {
-        ContentView().environmentObject(Spaces(spaces:[]))
+    private func generateSpaces() -> [Space] {
+        var shownSpaces:[Space] = []
+        var lastDisplay = 0
+        for space in spaceModel.spaces {
+            if lastDisplay > 0 && space.display != lastDisplay {
+                if showDisplaySeparator {
+                    shownSpaces.append(Space(id: 0, uuid: "", visible: true, active: false, display: 0, index: 0, yabaiIndex: 0, type: -1))
+                }
+            }
+            if space.visible || !showCurrentSpaceOnly{
+                shownSpaces.append(space)
+            }
+            lastDisplay = space.display
+        }
+        return shownSpaces
+    }
+    
+    var body: some View {
+        HStack (spacing: 4) {
+            if buttonStyle == .numeric || spaceModel.displays.count > 0 {
+                ForEach(generateSpaces()) {space in
+                    switch buttonStyle {
+                    case .numeric:
+                        SpaceButton(space: space)
+                    case .windows:
+                        WindowSpaceButton(space: space, windows: spaceModel.windows.filter{$0.spaceIndex == space.index}, display: spaceModel.displays[space.display-1])
+                    }
+                }
+            }
+        }.padding(2)
     }
 }

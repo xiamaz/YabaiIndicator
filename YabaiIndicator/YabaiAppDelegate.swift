@@ -17,80 +17,78 @@ extension UserDefaults {
     @objc dynamic var showCurrentSpaceOnly: Bool {
         return bool(forKey: "showCurrentSpaceOnly")
     }
+    
+    @objc dynamic var buttonStyle: ButtonStyle {
+        get {
+            return ButtonStyle(rawValue: self.integer(forKey: "buttonStyle")) ?? ButtonStyle.numeric
+        }
+    }
 }
 
 class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
     var application: NSApplication = NSApplication.shared
-    var spaces = Spaces(spaces: [])
+    var spaces = SpaceModel()
     
-    let g_connection = SLSMainConnectionID()
     let statusBarHeight = 22
     let itemWidth:CGFloat = 30
     
-    var refreshSink: AnyCancellable?
-    var separatorSink: AnyCancellable?
-    var displaySink: AnyCancellable?
-
+    var sinks: [AnyCancellable?] = []
+    var receiverQueue = DispatchQueue(label: "yabai-indicator.socket.receiver")
 
     @objc
     func onSpaceChanged(_ notification: Notification) {
-        refreshData()
+        onSpaceRefresh()
     }
     
     @objc
     func onDisplayChanged(_ notification: Notification) {
-        refreshData()
+        onSpaceRefresh()
     }
     
     func refreshData() {
-        // NSLog("Refreshing")        
-        let activeDisplayUUID = SLSCopyActiveMenuBarDisplayIdentifier(g_connection).takeRetainedValue() as String
+        // NSLog("Refreshing")
+        receiverQueue.async {
+            self.onDisplayRefresh()
+            self.onSpaceRefresh()
+            self.onWindowRefresh()
+        }
+    }
     
-        let displays = SLSCopyManagedDisplaySpaces(g_connection).takeRetainedValue() as [AnyObject]
+    func onSpaceRefresh() {
+        let spaceElems = gNativeClient.querySpaces()
+        let totalDisplays = spaceElems.map{return $0.display}.max()
+        
+        DispatchQueue.main.async {
+            self.spaces.spaces = spaceElems
+            self.spaces.totalDisplays = totalDisplays ?? 0
+        }
+    }
     
-        var spaceIncr = 0
-        var totalSpaces = 0
-        var spaces:[Space] = []
-        for display in displays {
-            let displaySpaces = display["Spaces"] as? [NSDictionary] ?? []
-            let current = display["Current Space"] as? NSDictionary
-            // let currentUUID = current["uuid"] as? String
-            let currentUUID = current?["uuid"] as? String ?? ""
-            let displayUUID = display["Display Identifier"] as? String ?? ""
-            let activeDisplay = activeDisplayUUID == displayUUID
-            
-            if (totalSpaces > 0) {
-                spaces.append(Space(id: 0, uuid: "", visible: true, active: false, displayUUID: "", index: 0, yabaiIndex: totalSpaces, type: -1))
-            }
-            
-            for nsSpace:NSDictionary in displaySpaces {
-                let spaceId = nsSpace["id64"] as? UInt64 ?? 0
-                let spaceUUID = nsSpace["uuid"] as? String ?? ""
-                let visible = spaceUUID == currentUUID
-                let active = visible && activeDisplay
-                let spaceType = nsSpace["type"] as? Int ?? 0
-                
-                var spaceIndex = 0
-                totalSpaces += 1
-                if spaceType == 0 {
-                    spaceIncr += 1
-                    spaceIndex = spaceIncr
-                }
-                
-                spaces.append(Space(id: spaceId, uuid: spaceUUID, visible: visible, active: active, displayUUID: displayUUID, index: spaceIndex, yabaiIndex: totalSpaces, type: spaceType))
+    func onWindowRefresh() {
+        if UserDefaults.standard.buttonStyle == .windows {
+            let windows = gYabaiClient.queryWindows()
+            DispatchQueue.main.async {
+                self.spaces.windows = windows
             }
         }
-        self.spaces.spaceElems = spaces
-        self.spaces.totalSpaces = totalSpaces
-        self.spaces.totalDisplays = displays.count
+    }
+    
+    func onDisplayRefresh() {
+        if UserDefaults.standard.buttonStyle == .windows {
+            let displays = gNativeClient.queryDisplays()
+            DispatchQueue.main.async {
+                self.spaces.displays = displays
+                self.spaces.totalDisplays = displays.count
+            }
+        }
     }
     
     func refreshBar() {
         let showDisplaySeparator = UserDefaults.standard.bool(forKey: "showDisplaySeparator")
         let showCurrentSpaceOnly = UserDefaults.standard.bool(forKey: "showCurrentSpaceOnly")
         
-        let numButtons = showCurrentSpaceOnly ?  spaces.totalDisplays : spaces.totalSpaces
+        let numButtons = showCurrentSpaceOnly ?  spaces.totalDisplays : spaces.spaces.count
         
         var newWidth = CGFloat(numButtons) * itemWidth
         if !showDisplaySeparator {
@@ -102,7 +100,6 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func socketServer() async {
-
         do {
             let socket = try Socket.create(family: .unix, type: .stream, proto: .unix)
             try socket.listen(on: "/tmp/yabai-indicator.socket")
@@ -112,9 +109,25 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
                 conn.close()
                 // NSLog("Received message: \(msg!).")
                 if msg == "refresh" {
-                    DispatchQueue.main.async {
+                    self.refreshData()
+                    receiverQueue.async {
                         // NSLog("Refreshing on main thread")
-                        self.refreshData()
+                        // self.refreshData()
+                    }
+                } else if msg == "refresh spaces" {
+                    receiverQueue.async {
+                        // NSLog("Refreshing on main thread")
+                        self.onSpaceRefresh()
+                    }
+                } else if msg == "refresh windows" {
+                    receiverQueue.async {
+                        // NSLog("Refreshing on main thread")
+                        self.onWindowRefresh()
+                    }
+                } else if msg == "refresh displays" {
+                    receiverQueue.async {
+                        // NSLog("Refreshing on main thread")
+                        self.onDisplayRefresh()
                     }
                 }
             }
@@ -162,6 +175,14 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.onSpaceChanged(_:)), name: NSWorkspace.activeSpaceDidChangeNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.onDisplayChanged(_:)), name: Notification.Name("NSWorkspaceActiveDisplayDidChangeNotification"), object: nil)
     }
+    
+    func refreshButtonStyle() {
+        for subView in statusBarItem?.button?.subviews ?? [] {
+            subView.removeFromSuperview()
+        }
+        statusBarItem?.button?.addSubview(createStatusItemView())
+        refreshData()
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         if let prefs = Bundle.main.path(forResource: "defaults", ofType: "plist"),
@@ -169,22 +190,22 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
           UserDefaults.standard.register(defaults: dict)
         }
         
-        refreshSink = spaces.objectWillChange.sink{_ in self.refreshBar()}
-        separatorSink = UserDefaults.standard.publisher(for: \.showDisplaySeparator).sink {_ in self.refreshBar()}
-        displaySink = UserDefaults.standard.publisher(for: \.showCurrentSpaceOnly).sink {_ in self.refreshBar()}
+        sinks = [
+            spaces.objectWillChange.sink{_ in self.refreshBar()},
+            UserDefaults.standard.publisher(for: \.showDisplaySeparator).sink {_ in self.refreshBar()},
+            UserDefaults.standard.publisher(for: \.showCurrentSpaceOnly).sink {_ in self.refreshBar()},
+            UserDefaults.standard.publisher(for: \.buttonStyle).sink {_ in self.refreshButtonStyle()}
 
+        ]
         
         Task {
             await self.socketServer()
         }
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
-        statusBarItem?.button?.addSubview(createStatusItemView())
         statusBarItem?.menu = createMenu()
         
-        refreshData()
-        
+        refreshButtonStyle()
         registerObservers()
-
     }
 }
