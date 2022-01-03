@@ -25,12 +25,19 @@
 
 ## Requirements
 
-[Yabai](https://github.com/koekeishiya/yabai) is required to be running for the space switching and keeping spaces information in sync. The latter will also require adding the following signals to your `.yabairc`:
+[Yabai](https://github.com/koekeishiya/yabai) is required to be running for the space switching and keeping spaces information in sync and showing individual windows. The following signals need to be added to your `.yabairc`:
 
 ```
-yabai -m signal --add event=mission_control_exit action='echo "refresh" | nc -U /tmp/yabai-indicator.socket' label=yindmc
-yabai -m signal --add event=display_added action='echo "refresh" | nc -U /tmp/yabai-indicator.socket' label=yindda
-yabai -m signal --add event=display_removed action='echo "refresh" | nc -U /tmp/yabai-indicator.socket' label=yinddr
+yabai -m signal --add event=mission_control_exit action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=display_added action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=display_removed action='echo "refresh" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_created action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_destroyed action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_focused action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_moved action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_resized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_minimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
+yabai -m signal --add event=window_deminimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
 ```
 
 Currently yabai is expected to reside in `/usr/local/bin/yabai`. Configurability might come at a later point.
