@@ -27,6 +27,7 @@
 		5086FE7F2782006D00E51F61 /* SocketClient.c in Sources */ = {isa = PBXBuildFile; fileRef = 5086FE7E2782006C00E51F61 /* SocketClient.c */; };
 		5086FE842783026C00E51F61 /* ButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086FE832783026C00E51F61 /* ButtonStyle.swift */; };
 		5086FE87278303EE00E51F61 /* NativeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086FE86278303EE00E51F61 /* NativeClient.swift */; };
+		5086FE892783598E00E51F61 /* SpaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086FE882783598E00E51F61 /* SpaceType.swift */; };
 		50DF24C7277BD18700DF1906 /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DF24C6277BD18700DF1906 /* ImageGenerator.swift */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +77,7 @@
 		5086FE7E2782006C00E51F61 /* SocketClient.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SocketClient.c; sourceTree = "<group>"; };
 		5086FE832783026C00E51F61 /* ButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyle.swift; sourceTree = "<group>"; };
 		5086FE86278303EE00E51F61 /* NativeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeClient.swift; sourceTree = "<group>"; };
+		5086FE882783598E00E51F61 /* SpaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceType.swift; sourceTree = "<group>"; };
 		50DF24C6277BD18700DF1906 /* ImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -195,6 +197,7 @@
 			children = (
 				506120AE277A7BF800E8F192 /* SpacesModel.swift */,
 				5086FE832783026C00E51F61 /* ButtonStyle.swift */,
+				5086FE882783598E00E51F61 /* SpaceType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				506120AF277A7BF800E8F192 /* SpacesModel.swift in Sources */,
 				5086FE87278303EE00E51F61 /* NativeClient.swift in Sources */,
 				50DF24C7277BD18700DF1906 /* ImageGenerator.swift in Sources */,
+				5086FE892783598E00E51F61 /* SpaceType.swift in Sources */,
 				506120982779239B00E8F192 /* YabaiAppDelegate.swift in Sources */,
 				500F41362780826500C6BC9B /* SettingsView.swift in Sources */,
 				5061206E2779212000E8F192 /* ContentView.swift in Sources */,

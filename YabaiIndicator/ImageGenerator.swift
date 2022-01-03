@@ -56,35 +56,41 @@ func generateImage(symbol: NSString, active: Bool, visible: Bool) -> NSImage {
     return image
 }
 
-func drawWindows(contentSize: CGSize, contentXOffset: Double, contentYOffset: Double, windows: [Window], display: Display) {
-    let scaling = display.size.height > display.size.width ? display.size.height / contentSize.height : display.size.width / contentSize.width
-    let xoffset = (display.size.height > display.size.width ? (contentSize.width - display.size.width / scaling) / 2 : 0) + contentXOffset
-    let yoffset = (display.size.height > display.size.width ? 0 : (contentSize.height - display.size.height / scaling) / 2) + contentYOffset
+func drawWindows(in content: NSRect, windows: [Window], display: Display) {
+    let displaySize = display.frame.size
+    let displayOrigin = display.frame.origin
+    let contentSize = content.size
+    let contentOrigin = content.origin
+    let scaling = displaySize.height > displaySize.width ? displaySize.height / contentSize.height : displaySize.width / contentSize.width
+    let xoffset = (displaySize.height > displaySize.width ? (contentSize.width - displaySize.width / scaling) / 2 : 0) + contentOrigin.x
+    let yoffset = (displaySize.height > displaySize.width ? 0 : (contentSize.height - displaySize.height / scaling) / 2) + contentOrigin.y
     
     let scalingFactor = 1/scaling
     let transform = NSAffineTransform()
     transform.scale(by: scalingFactor)
     transform.translateX(by: xoffset / scalingFactor, yBy: yoffset / scalingFactor)
     // plot single windows
-    for window in windows {
-        let windowInset = 0.8
-        let fixedSize = NSSize(width: window.frame.width * windowInset, height: window.frame.height * windowInset)
-        let fixedOrigin = NSPoint(x: window.frame.origin.x + (window.frame.width - fixedSize.width) / 2, y: display.size.height - (window.frame.origin.y + window.frame.height) + (window.frame.height - fixedSize.height) / 2)
+    for window in windows.reversed() {
+        let fixedOrigin = NSPoint(x: window.frame.origin.x - displayOrigin.x, y: displaySize.height - (window.frame.origin.y - displayOrigin.y + window.frame.height))
         let windowOrigin = transform.transform(fixedOrigin)
-        let windowSize = transform.transform(fixedSize)
-        let windowRect = NSBezierPath(rect: NSRect(origin: windowOrigin, size: windowSize))
-        windowRect.fill()
+        let windowSize = transform.transform(window.frame.size)
+        let windowRect = NSRect(origin: windowOrigin, size: windowSize)
+        let windowPath = NSBezierPath(rect: windowRect)
+        windowPath.fill()
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current?.compositingOperation = .destinationOut
+        windowPath.lineWidth = 1.5
+        windowPath.stroke()
+        NSGraphicsContext.restoreGraphicsState()
     }
 }
 
 func generateImage(active: Bool, visible: Bool, windows: [Window], display: Display) -> NSImage {
     let size = CGSize(width: 24, height: 16)
-    let contentYOffset = 4.0
-    let contentXOffset = 4.0
-    let contentSize = CGSize(width: size.width - contentXOffset * 2, height: size.height - contentYOffset * 2)
+    let canvas = NSRect(origin: CGPoint.zero, size: size)
+    let bounds = NSBezierPath(rect: canvas.insetBy(dx: 4, dy: 4))
     let cornerRadius:CGFloat = 6
     
-    let canvas = NSRect(origin: CGPoint.zero, size: size)
     
     let image = NSImage(size: size)
     let strokeColor = NSColor.black
@@ -99,18 +105,22 @@ func generateImage(active: Bool, visible: Bool, windows: [Window], display: Disp
         imageFill.unlockFocus()
         
         imageStroke.lockFocus()
-        drawWindows(contentSize: contentSize, contentXOffset: contentXOffset, contentYOffset: contentYOffset, windows: windows, display: display)
+        drawWindows(in: canvas, windows: windows, display: display)
         imageStroke.unlockFocus()
         
         image.lockFocus()
         imageFill.draw(in: canvas, from: NSZeroRect, operation: .sourceOut, fraction: active ? 1.0 : 0.8)
+        
+        bounds.setClip()
         imageStroke.draw(in: canvas, from: NSZeroRect, operation: .destinationOut, fraction: active ? 1.0 : 0.8)
         image.unlockFocus()
     } else {
         image.lockFocus()
         strokeColor.setStroke()
         NSBezierPath(roundedRect: canvas.insetBy(dx: 0.5, dy: 0.5), xRadius: cornerRadius, yRadius: cornerRadius).stroke()
-        drawWindows(contentSize: contentSize, contentXOffset: contentXOffset, contentYOffset: contentYOffset, windows: windows, display: display)
+
+        bounds.setClip()
+        drawWindows(in: canvas, windows: windows, display: display)
         image.unlockFocus()
     }
     image.isTemplate = true

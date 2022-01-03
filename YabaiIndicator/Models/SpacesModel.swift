@@ -22,7 +22,7 @@ struct Space: Identifiable {
     let display: Int
     let index: Int // mission control index (for sanitys sake)
     let yabaiIndex: Int // continuous index (for addresssing)
-    let type: Int // 0 - normal space 4 - fullscreen space // -1 divider
+    let type: SpaceType // 0 - normal space 4 - fullscreen space // -1 divider
     // var id: String { uuid }
 }
 
@@ -30,7 +30,7 @@ struct Display: Identifiable {
     let id: UInt64
     let uuid: String
     let index: Int
-    let size: NSSize
+    let frame: NSRect
 }
 
 struct Window: Identifiable {

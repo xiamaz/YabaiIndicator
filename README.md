@@ -8,6 +8,10 @@
 <img src="docs/simple.png" alt="screenshot">
 <p>Shows a row clickable buttons for all workspaces including fullscreen applications</p>
 
+<img src="docs/window-mode.png" alt="screenshot">
+<p>Alternatively show miniature windows.</p>
+
+
 <img src="docs/screenshot-dark.png" alt="screenshot2">
 <p>Also supports multiple displays (with separate spaces).</p>
 

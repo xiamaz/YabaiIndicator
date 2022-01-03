@@ -11,12 +11,13 @@ struct SpaceButton : View {
     var space: Space
     
     func getText() -> String {
-        if space.type == 0 {
+        switch space.type {
+        case .standard:
             return "\(space.index)"
-        } else if space.type == 4 {
+        case .fullscreen:
             return "F"
-        } else {
-            return "?"
+        case .divider:
+            return ""
         }
     }
     
@@ -27,7 +28,7 @@ struct SpaceButton : View {
     }
     
     var body: some View {
-        if space.type == -1 {
+        if space.type == .divider {
             Divider().background(Color(.systemGray)).frame(height: 14)
         } else {
             Image(nsImage: generateImage(symbol: getText() as NSString, active: space.active, visible: space.visible)).onTapGesture {
@@ -40,7 +41,7 @@ struct SpaceButton : View {
 struct WindowSpaceButton : View {
     var space: Space
     var windows: [Window]
-    var display: Display
+    var displays: [Display]
     
     func switchSpace() {
         if !space.active && space.yabaiIndex > 0 {
@@ -49,9 +50,18 @@ struct WindowSpaceButton : View {
     }
     
     var body : some View {
-        Image(nsImage: generateImage(active: space.active, visible: space.visible, windows: windows, display: display)).onTapGesture {
-            switchSpace()
-        }.frame(width:24, height: 16)
+        switch space.type {
+        case .standard:
+            Image(nsImage: generateImage(active: space.active, visible: space.visible, windows: windows, display: displays[space.display-1])).onTapGesture {
+                switchSpace()
+            }.frame(width:24, height: 16)
+        case .fullscreen:
+            Image(nsImage: generateImage(symbol: "F" as NSString, active: space.active, visible: space.visible)).onTapGesture {
+                switchSpace()
+            }
+        case .divider:
+            Divider().background(Color(.systemGray)).frame(height: 14)
+        }
     }
 }
 
@@ -67,7 +77,7 @@ struct ContentView: View {
         for space in spaceModel.spaces {
             if lastDisplay > 0 && space.display != lastDisplay {
                 if showDisplaySeparator {
-                    shownSpaces.append(Space(id: 0, uuid: "", visible: true, active: false, display: 0, index: 0, yabaiIndex: 0, type: -1))
+                    shownSpaces.append(Space(id: 0, uuid: "", visible: true, active: false, display: 0, index: 0, yabaiIndex: 0, type: .divider))
                 }
             }
             if space.visible || !showCurrentSpaceOnly{
@@ -86,7 +96,7 @@ struct ContentView: View {
                     case .numeric:
                         SpaceButton(space: space)
                     case .windows:
-                        WindowSpaceButton(space: space, windows: spaceModel.windows.filter{$0.spaceIndex == space.index}, display: spaceModel.displays[space.display-1])
+                        WindowSpaceButton(space: space, windows: spaceModel.windows.filter{$0.spaceIndex == space.yabaiIndex}, displays: spaceModel.displays)
                     }
                 }
             }
