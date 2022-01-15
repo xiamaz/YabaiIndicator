@@ -77,7 +77,7 @@ struct ContentView: View {
         for space in spaceModel.spaces {
             if lastDisplay > 0 && space.display != lastDisplay {
                 if showDisplaySeparator {
-                    shownSpaces.append(Space(id: 0, uuid: "", visible: true, active: false, display: 0, index: 0, yabaiIndex: 0, type: .divider))
+                    shownSpaces.append(Space(spaceid: 0, uuid: "", visible: true, active: false, display: 0, index: 0, yabaiIndex: 0, type: .divider))
                 }
             }
             if space.visible || !showCurrentSpaceOnly{
@@ -91,7 +91,7 @@ struct ContentView: View {
     var body: some View {
         HStack (spacing: 4) {
             if buttonStyle == .numeric || spaceModel.displays.count > 0 {
-                ForEach(generateSpaces()) {space in
+                ForEach(generateSpaces(), id: \.self) {space in
                     switch buttonStyle {
                     case .numeric:
                         SpaceButton(space: space)

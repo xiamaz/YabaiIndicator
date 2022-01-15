@@ -28,7 +28,7 @@ extension UserDefaults {
 class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem?
     var application: NSApplication = NSApplication.shared
-    var spaces = SpaceModel()
+    var spaceModel = SpaceModel()
     
     let statusBarHeight = 22
     let itemWidth:CGFloat = 30
@@ -49,19 +49,18 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     func refreshData() {
         // NSLog("Refreshing")
         receiverQueue.async {
-            self.onDisplayRefresh()
             self.onSpaceRefresh()
             self.onWindowRefresh()
         }
     }
     
     func onSpaceRefresh() {
+        let displays = gNativeClient.queryDisplays()
         let spaceElems = gNativeClient.querySpaces()
-        let totalDisplays = spaceElems.map{return $0.display}.max()
         
         DispatchQueue.main.async {
-            self.spaces.spaces = spaceElems
-            self.spaces.totalDisplays = totalDisplays ?? 0
+            self.spaceModel.displays = displays
+            self.spaceModel.spaces = spaceElems
         }
     }
     
@@ -69,17 +68,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         if UserDefaults.standard.buttonStyle == .windows {
             let windows = gYabaiClient.queryWindows()
             DispatchQueue.main.async {
-                self.spaces.windows = windows
-            }
-        }
-    }
-    
-    func onDisplayRefresh() {
-        if UserDefaults.standard.buttonStyle == .windows {
-            let displays = gNativeClient.queryDisplays()
-            DispatchQueue.main.async {
-                self.spaces.displays = displays
-                self.spaces.totalDisplays = displays.count
+                self.spaceModel.windows = windows
             }
         }
     }
@@ -88,11 +77,11 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         let showDisplaySeparator = UserDefaults.standard.bool(forKey: "showDisplaySeparator")
         let showCurrentSpaceOnly = UserDefaults.standard.bool(forKey: "showCurrentSpaceOnly")
         
-        let numButtons = showCurrentSpaceOnly ?  spaces.totalDisplays : spaces.spaces.count
+        let numButtons = showCurrentSpaceOnly ?  spaceModel.displays.count : spaceModel.spaces.count
         
         var newWidth = CGFloat(numButtons) * itemWidth
         if !showDisplaySeparator {
-            newWidth -= CGFloat((spaces.totalDisplays - 1) * 10)
+            newWidth -= CGFloat((spaceModel.displays.count - 1) * 10)
         }
         statusBarItem?.button?.frame.size.width = newWidth
         statusBarItem?.button?.subviews[0].frame.size.width = newWidth
@@ -110,10 +99,6 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
                 // NSLog("Received message: \(msg!).")
                 if msg == "refresh" {
                     self.refreshData()
-                    receiverQueue.async {
-                        // NSLog("Refreshing on main thread")
-                        // self.refreshData()
-                    }
                 } else if msg == "refresh spaces" {
                     receiverQueue.async {
                         // NSLog("Refreshing on main thread")
@@ -123,11 +108,6 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
                     receiverQueue.async {
                         // NSLog("Refreshing on main thread")
                         self.onWindowRefresh()
-                    }
-                } else if msg == "refresh displays" {
-                    receiverQueue.async {
-                        // NSLog("Refreshing on main thread")
-                        self.onDisplayRefresh()
                     }
                 }
             }
@@ -150,7 +130,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     
     func createStatusItemView() -> NSView {
         let view = NSHostingView(
-            rootView: ContentView().environmentObject(spaces)
+            rootView: ContentView().environmentObject(spaceModel)
         )
         view.setFrameSize(NSSize(width: 0, height: statusBarHeight))
         return view
@@ -191,7 +171,7 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
         }
         
         sinks = [
-            spaces.objectWillChange.sink{_ in self.refreshBar()},
+            spaceModel.objectWillChange.sink{_ in self.refreshBar()},
             UserDefaults.standard.publisher(for: \.showDisplaySeparator).sink {_ in self.refreshBar()},
             UserDefaults.standard.publisher(for: \.showCurrentSpaceOnly).sink {_ in self.refreshBar()},
             UserDefaults.standard.publisher(for: \.buttonStyle).sink {_ in self.refreshButtonStyle()}

@@ -11,11 +11,10 @@ class SpaceModel: ObservableObject {
     @Published var spaces:[Space] = []
     @Published var windows:[Window] = []
     @Published var displays:[Display] = []
-    @Published var totalDisplays: Int = 0
 }
 
-struct Space: Identifiable {
-    let id: UInt64
+struct Space: Hashable {
+    let spaceid: UInt64
     let uuid: String
     let visible: Bool
     let active: Bool
@@ -24,6 +23,14 @@ struct Space: Identifiable {
     let yabaiIndex: Int // continuous index (for addresssing)
     let type: SpaceType // 0 - normal space 4 - fullscreen space // -1 divider
     // var id: String { uuid }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(spaceid)
+        hasher.combine(visible)
+        hasher.combine(active)
+        hasher.combine(display)
+        hasher.combine(index)
+    }
 }
 
 struct Display: Identifiable {

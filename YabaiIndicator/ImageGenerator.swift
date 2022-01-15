@@ -117,7 +117,8 @@ func generateImage(active: Bool, visible: Bool, windows: [Window], display: Disp
     } else {
         image.lockFocus()
         strokeColor.setStroke()
-        NSBezierPath(roundedRect: canvas.insetBy(dx: 0.5, dy: 0.5), xRadius: cornerRadius, yRadius: cornerRadius).stroke()
+        let path = NSBezierPath(roundedRect: canvas.insetBy(dx: 0.5, dy: 0.5), xRadius: cornerRadius, yRadius: cornerRadius)
+        path.stroke()
 
         bounds.setClip()
         drawWindows(in: canvas, windows: windows, display: display)
