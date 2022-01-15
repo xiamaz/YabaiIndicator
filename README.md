@@ -40,7 +40,7 @@ yabai -m signal --add event=window_minimized action='echo "refresh windows" | nc
 yabai -m signal --add event=window_deminimized action='echo "refresh windows" | nc -U /tmp/yabai-indicator.socket'
 ```
 
-Currently yabai is expected to reside in `/usr/local/bin/yabai`. Configurability might come at a later point.
+Currently yabai (master b884717) is expected to reside in `/usr/local/bin/yabai`. Configurability might come at a later point.
 
 If certain keybinds modify the spaces arrangement the following commands needs to be added to keep the indicator in sync:
 
