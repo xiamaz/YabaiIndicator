@@ -24,15 +24,12 @@
 
 ## Requirements
 
-[Yabai](https://github.com/koekeishiya/yabai) is required to be running for the space switching and keeping spaces information in sync and showing individual windows. 
-
-In order for this program to work correctly, you will need to disable SIP. Doing this is NOT recommended by Apple, as it will compromise the security of your system. Instructions on doing that can be found on the [yabai wiki](https://github.com/koekeishiya/yabai/wiki).
+[Yabai](https://github.com/koekeishiya/yabai) is required to be running for the space switching and keeping spaces information in sync and showing individual windows. In order for switching spaces by clicking to work correctly, you will need to disable SIP.
 
 
 ## Installation
 
 If you don't have yabai, install yabai (version 4.0.0 required) first: [Official installation guide](https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release))
-
 
 Just download and unzip the latest release of YabaiIndicator from [Releases](https://github.com/xiamaz/YabaiIndicator/releases) and run. Now you should be able to see empty spaces for each desktop and clicking spaces should work.
 
