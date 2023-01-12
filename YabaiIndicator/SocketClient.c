@@ -22,7 +22,6 @@ static inline int socket_connect(int *sockfd, char *socket_path)
     struct sockaddr_un socket_address;
     socket_address.sun_family = AF_UNIX;
 
-    *sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
     if (*sockfd == -1) return -1;
 
     snprintf(socket_address.sun_path, sizeof(socket_address.sun_path), "%s", socket_path);
