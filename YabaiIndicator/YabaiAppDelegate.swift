@@ -124,8 +124,12 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
     
     @objc
     func openPreferences() {
-        NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
-        NSApp.activate(ignoringOtherApps: true)
+      if #available(macOS 13, *) {
+          NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+      } else {
+          NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+      }
+      NSApp.activate(ignoringOtherApps: true)
     }
     
     func createStatusItemView() -> NSView {
