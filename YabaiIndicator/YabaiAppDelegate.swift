@@ -26,6 +26,7 @@ extension UserDefaults {
 }
 
 class YabaiAppDelegate: NSObject, NSApplicationDelegate {
+    var menu: NSMenu?
     var statusBarItem: NSStatusItem?
     var application: NSApplication = NSApplication.shared
     var spaceModel = SpaceModel()
@@ -186,10 +187,16 @@ class YabaiAppDelegate: NSObject, NSApplicationDelegate {
             await self.socketServer()
         }
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        
-        statusBarItem?.menu = createMenu()
-        
+        menu = createMenu()
+        statusBarItem?.button?.action = #selector(statusMenuButtonTouched)
+        statusBarItem?.button?.sendAction(on: [.rightMouseUp])
+
         refreshButtonStyle()
         registerObservers()
+    }
+
+    @objc
+    private func statusMenuButtonTouched() {
+        menu?.popUp(positioning: nil, at: NSPoint.zero, in: statusBarItem?.button!)
     }
 }
